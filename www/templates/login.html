@@ -1,0 +1,17 @@
+<div class="pane-login">
+  <div class="space-top-125">
+    <form name="form" ng-submit="doLogin(form, model)">
+      <div class="form-wrapper">
+        <div class="form-input">
+          <input type="text" name="merchantId" ng-model="model.merchantId" class="it-text login" placeholder="Merchant ID" required/>
+        </div>
+        <div class="form-input">
+          <input type="password" name="password" ng-model="model.password" class="it-text login" placeholder="Password" required/>
+        </div>
+        <div class="form-input text-center space-top-50">
+          <input type="submit" name="login" class="btn-emerchant" value="Login"/>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

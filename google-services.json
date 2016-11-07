@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "640899867774",
+    "firebase_url": "https://bj-merchant.firebaseio.com",
+    "project_id": "bj-merchant",
+    "storage_bucket": "bj-merchant.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:640899867774:android:bdc395a18c43f3e3",
+        "android_client_info": {
+          "package_name": "com.bangjoni2016.merchantcommerce"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "640899867774-t5gcgmp31foebsj3foo9rcs8gblo58dt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBu2-j55MawpAveFeQjSOHdCKzHYjllPME"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

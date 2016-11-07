@@ -1,0 +1,14 @@
+<ion-view ng-init="init()">
+  <ion-header-bar class="bar-subheader">
+    <h2 class="title">Posted services/products</h2>
+  </ion-header-bar>
+  <ion-content class="has-subheader">
+    <div class="list void-border">
+      <a class="item item-thumbnail-right" ng-repeat="data in datas">
+        <img ng-src="{{data.img_url}}">
+        <h2>{{data.name}}</h2>
+        <p>Harga: IDR {{data.price}}</p>
+      </a>
+    </div>
+  </ion-content>
+</ion-view>

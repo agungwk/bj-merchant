@@ -1,0 +1,173 @@
+/* Empty. Add your own CSS if you like */
+
+/**
+* UTILS
+*/
+.padding-top-15 {
+	padding-top: 15px !important;
+}
+.space-top-20 {
+    margin-top: 20px !important;
+}
+.space-top-50 {
+    margin-top: 50px !important;
+}
+.space-top-75 {
+    margin-top: 75px !important;
+}
+.space-top-100 {
+    margin-top: 100px !important;
+}
+.space-top-125 {
+    margin-top: 125px !important;
+}
+.void-margin {
+	margin: 0;
+}
+.margin-auto {
+	margin: auto;
+}
+.void-border .item:first-child {
+	border: 0;
+}
+.top-43 {
+	margin-top: 43px;
+}
+/*------------------------*/
+
+/**
+* GLOBAL
+*/
+.page-title {
+	padding: 20px 16px 10px;
+}
+.bar.bar-merchant {
+    border-color: #00AEC4;
+    background-color: #00BCD4;
+    background-image: linear-gradient(0deg, #00AEC4, #00AEC4 50%, transparent 50%);
+    color: #444; }
+    .bar.bar-merchant .title {
+      color: #444; }
+    .bar.bar-merchant.bar-footer {
+      background-image: linear-gradient(180deg, #00AEC4, #00AEC4 50%, transparent 50%); }
+      
+.bar-merchant .button {
+  border-color: #b2b2b2;
+  background-color: #f8f8f8;
+  color: #444; }
+  .bar-merchant .button:hover {
+    color: #444;
+    text-decoration: none; }
+  .bar-merchant .button.active, .bar-merchant .button.activated {
+    border-color: #a2a2a2;
+    background-color: #e5e5e5; }
+  .bar-merchant .button.button-clear {
+    border-color: transparent;
+    background: none;
+    box-shadow: none;
+    color: #000;
+    font-size: 17px; }
+  .bar-merchant .button.button-icon {
+    border-color: transparent;
+    background: none; }
+    
+.button-bar.bar-merchant > .button {
+    border-color: #b2b2b2; }
+    
+.footer-form {
+	border-top: 2px solid #E9E9E9;
+}
+.button.button-custom-size {
+	padding: 0px 25px;
+}
+.bg-side,
+.bg-side .item-content {
+	background-color: #D9FFF4;
+}
+.bg-side .item {
+	border: none;
+}
+.bg-side .item-content.activated {
+	background-color: #CEF2E8;
+}
+select.select-option {
+	width: 100%;
+	padding: 15px;
+}
+/*------------------------*/
+
+/**
+* LOGIN PAGE
+*/
+.pane-login {
+    background-color: #666666;
+}
+
+.form-wrapper {
+    width: 75%;
+    margin: 0 auto;
+}
+.form-input {
+    margin-bottom: 10px;
+}
+input.it-text {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    height: auto;
+}
+.it-text.login {
+   background: linear-gradient(#0994C3, #0994C3), linear-gradient(#0994C3, #0994C3), linear-gradient(#0994C3, #0994C3);
+   background-size: 2px 15%, 100% 2px, 2px 15%;
+   background-position: bottom left, bottom center, bottom right;
+   background-repeat: no-repeat;
+   color: #FFFFFF;
+}
+.it-text.login::-webkit-input-placeholder {
+   color: #D3D3D3;}
+.it-text.login:-moz-placeholder { /* Firefox 18- */
+   color: #D3D3D3;}
+.it-text.login::-moz-placeholder {  /* Firefox 19+ */
+   color: #D3D3D3;}
+.it-text.login:-ms-input-placeholder {  
+   color: #D3D3D3;}
+   
+.it-text.standard {
+   background: linear-gradient(#B0B0B0, #B0B0B0), linear-gradient(#B0B0B0, #B0B0B0), linear-gradient(#B0B0B0, #B0B0B0);
+   background-size: 2px 15%, 100% 2px, 2px 15%;
+   background-position: bottom left, bottom center, bottom right;
+   background-repeat: no-repeat;
+   color: #212121;
+}
+.it-text.standard::-webkit-input-placeholder {
+   color: #212121;}
+.it-text.standard:-moz-placeholder { /* Firefox 18- */
+   color: #212121;}
+.it-text.standard::-moz-placeholder {  /* Firefox 19+ */
+   color: #212121;}
+.it-text.standard:-ms-input-placeholder {  
+   color: #212121;}
+   
+.btn-emerchant {
+	background-color: #787878;
+	color: #FFFFFF;
+	border-color: #8C8C8C;
+	padding: 8px 25px;
+}
+/*------------------------*/
+
+/**
+* HOME PAGE
+*/
+.form-wrapper.standard {
+    width: 90%;
+    margin: 0 auto;
+    padding-top: 10px;
+}
+.dp-thumbnails {
+	max-width: 80px;
+    max-height: 80px;
+    width: 100%;
+    height: 100%;
+}
+/*------------------------*/
