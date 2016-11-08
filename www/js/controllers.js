@@ -270,17 +270,42 @@ angular.module('starter.controllers', [])
 	  }, false);
   }
 })
-
-.controller('PlaylistsCtrl', function($scope) {
-  $scope.playlists = [
-    { title: 'Reggae', id: 1 },
-    { title: 'Chill', id: 2 },
-    { title: 'Dubstep', id: 3 },
-    { title: 'Indie', id: 4 },
-    { title: 'Rap', id: 5 },
-    { title: 'Cowbell', id: 6 }
-  ];
-})
-
-.controller('PlaylistCtrl', function($scope, $stateParams) {
+.controller('MapsController', function($scope, $state, $cordovaGeolocation) {
+	var options = {timeout: 10000, enableHighAccuracy: true};
+	
+	$cordovaGeolocation.getCurrentPosition(options).then(function(position){
+ 
+	var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+	var latLngCenter = latLng;
+    var mapOptions = {
+    	center: latLng,
+		zoom: 16,
+		mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+ 
+    $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
+    
+    var marker = new google.maps.Marker({
+		map: $scope.map,
+		animation: google.maps.Animation.DROP,
+		center: latLng,
+		position: latLng,
+		draggable:true
+	});
+    
+    //Wait until the map is loaded
+	google.maps.event.addListenerOnce($scope.map, 'drag', function(){
+		google.maps.event.addListener($scope.map, 'center_changed', function() {
+			latLngCenter = $scope.map.getCenter();
+		});
+		marker.bindTo('position', $scope.map, 'center');
+	});
+	
+	console.log(JSON.stringify(latLngCenter));
+	
+	}, function(error){
+		console.log("Could not get location");
+	});
+	
+	
 });

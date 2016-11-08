@@ -99,14 +99,12 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers'])
     templateUrl: 'templates/menu.html',
     controller: 'AppController'
   })
-
   .state('login', {
     url: '/login',
     cache: false,
     templateUrl: 'templates/login.html',
     controller: 'LoginController'
   })
-
   .state('app.home', {
     url: '/home',
     cache: false,
@@ -117,7 +115,6 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers'])
       }
     }
   })
-
   .state('app.addProduct', {
     url: '/addProduct',
     cache: false,
@@ -128,7 +125,6 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers'])
       }
     }
   })
-
   .state('app.editProfile', {
     url: '/editProfile',
     cache: false,
@@ -139,34 +135,12 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers'])
       }
     }
   })
-
-  .state('app.browse', {
-      url: '/browse',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/browse.html'
-        }
-      }
-    })
-    .state('app.playlists', {
-      url: '/playlists',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/playlists.html',
-          controller: 'PlaylistsCtrl'
-        }
-      }
-    })
-
-  .state('app.single', {
-    url: '/playlists/:playlistId',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/playlist.html',
-        controller: 'PlaylistCtrl'
-      }
-    }
+  .state('maps', {
+    url: '/maps',
+    cache: false,
+    templateUrl: 'templates/maps.html',
+    controller: 'MapsController'
   });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/login');
+  $urlRouterProvider.otherwise('/maps');
 });
