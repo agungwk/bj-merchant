@@ -182,34 +182,52 @@ angular.module('starter.controllers', [])
   }
 })
 
-.controller('EditProfileController', function($scope, $rootScope, $state, $timeout, $ionicHistory, $ionicLoading, $cordovaCamera, $http) {
+.controller('EditProfileController', function($scope, $rootScope, $state, $stateParams, $timeout, $ionicHistory, $ionicLoading, $cordovaCamera, $http) {
   $scope.model = {};
+  
+  var merchantProfile = $stateParams.data;
+  console.log(merchantProfile);
   $scope.init = function () {
     $ionicLoading.show();
-    var data = {
-    	"merchant_id": $rootScope.merchantId,
-    }
-    $http.post(url + 'fetchmerchantdetail.php', data, {}).then(
-	function(response) {
-		var data = response.data;
-		console.log(JSON.stringify(data));
-		if (data.status == "200") {
-			$scope.model = {
-				storeName: data.data.merchant_name,
-				location: data.data.address,
-				openHour: data.data.open_hour,
-				closeHour: data.data.close_hour,
-				phoneNumber: data.data.phone
+    if (angular.equals(merchantProfile, {})) {
+    	var data = {
+	    	"merchant_id": $rootScope.merchantId,
+	    }
+	    $http.post(url + 'fetchmerchantdetail.php', data, {}).then(
+		function(response) {
+			var data = response.data;
+			console.log(JSON.stringify(data));
+			if (data.status == "200") {
+				$scope.model = {
+					storeName: data.data.merchant_name,
+					location: data.data.address,
+					openHour: data.data.open_hour,
+					closeHour: data.data.close_hour,
+					phoneNumber: data.data.phone,
+					imgUrl: data.data.img_url,
+					lat: typeof data.data.lat != undefined ? data.data.lat : null,
+					lng: typeof data.data.lng != undefined ? data.data.lng : null
+				}
+				$scope.imgUrl = data.data.img_url;
+			} else {
+				alert(data.errMsg);
 			}
-			$scope.imgUrl = data.data.img_url;
-		} else {
-			alert(data.errMsg);
-		}
-		$ionicLoading.hide();
-	}, function(response) {
-		alert("ERROR");
-		$ionicLoading.hide();
-	});
+			$ionicLoading.hide();
+		}, function(response) {
+			alert("ERROR");
+			$ionicLoading.hide();
+		});
+    } else {
+    	$scope.model = merchantProfile;
+    	$scope.imgUrl = merchantProfile.imgUrl;
+    	$ionicLoading.hide();
+    }
+    
+  }
+  
+  $scope.openMap = function () {
+	$ionicHistory.nextViewOptions({disableBack: true});
+	$state.go("maps", {data: $scope.model});
   }
   
   $scope.editProfile = function(form, model) {
@@ -262,7 +280,9 @@ angular.module('starter.controllers', [])
 
 	    $cordovaCamera.getPicture(options).then(function(imageData) {
 	      var image = document.getElementById('dp');
-	      image.src = "data:image/jpeg;base64," + imageData;
+	      var imgSrc = "data:image/jpeg;base64," + imageData;
+	      image.src = imgSrc;
+	      $scope.model.imgUrl = imgSrc;
 	    }, function(err) {
 	      // error
 	    });
@@ -270,12 +290,22 @@ angular.module('starter.controllers', [])
 	  }, false);
   }
 })
-.controller('MapsController', function($scope, $state, $cordovaGeolocation) {
+.controller('MapsController', function($scope, $state, $stateParams, $cordovaGeolocation, $ionicHistory) {
+	console.log(JSON.stringify($stateParams.data));
+	
+	var merchantProfile = $stateParams.data;
+	
 	var options = {timeout: 10000, enableHighAccuracy: true};
 	
 	$cordovaGeolocation.getCurrentPosition(options).then(function(position){
  
 	var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+	if (merchantProfile.lat != null && merchantProfile.lng != null) {
+		latLng = new google.maps.LatLng(merchantProfile.lat, merchantProfile.lng);
+	}
+	
+	console.log("latLng: " + JSON.stringify(latLng));
+//	var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 	var latLngCenter = latLng;
     var mapOptions = {
     	center: latLng,
@@ -293,19 +323,24 @@ angular.module('starter.controllers', [])
 		draggable:true
 	});
     
-    //Wait until the map is loaded
 	google.maps.event.addListenerOnce($scope.map, 'drag', function(){
-		google.maps.event.addListener($scope.map, 'center_changed', function() {
-			latLngCenter = $scope.map.getCenter();
-		});
 		marker.bindTo('position', $scope.map, 'center');
 	});
-	
-	console.log(JSON.stringify(latLngCenter));
 	
 	}, function(error){
 		console.log("Could not get location");
 	});
 	
-	
+	$scope.cancel = function () {
+		$ionicHistory.nextViewOptions({disableBack: true});
+		$state.go("app.editProfile", {data : merchantProfile});
+	}
+	$scope.saveLocation = function () {
+		console.log("LAT " + $scope.map.getCenter().lat() + " LONG " + $scope.map.getCenter().lng());
+		merchantProfile.lat = $scope.map.getCenter().lat();
+		merchantProfile.lng = $scope.map.getCenter().lng()
+		console.log("merchantProfile: " + JSON.stringify(merchantProfile));
+		$ionicHistory.nextViewOptions({disableBack: true});
+		$state.go("app.editProfile", {data : merchantProfile});
+	}
 });

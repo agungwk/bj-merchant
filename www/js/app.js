@@ -133,14 +133,20 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers'])
         templateUrl: 'templates/edit-profile.html',
         controller: 'EditProfileController'
       }
+    },
+    params: {
+      data: {}
     }
   })
   .state('maps', {
     url: '/maps',
     cache: false,
     templateUrl: 'templates/maps.html',
-    controller: 'MapsController'
+    controller: 'MapsController',
+    params: {
+      data: {}
+    }
   });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/maps');
+  $urlRouterProvider.otherwise('/login');
 });

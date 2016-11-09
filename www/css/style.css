@@ -182,4 +182,11 @@ input.it-text {
     width: 100%;
     height: 100%;
 }
+.button-fix-size-map {
+	width: 80px;
+}
+.bar-footer-map {
+	height: 40px;
+	background-color: #F2F2F2;
+}
 /*------------------------*/
