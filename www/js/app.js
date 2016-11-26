@@ -6,7 +6,8 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers'])
 
-.run(function($ionicPlatform, $rootScope, $cordovaPushV5, $http) {
+.run(function($ionicPlatform, $ionicLoading, $rootScope, $cordovaPushV5, $http, $location) {
+  $rootScope.isLogin = false;
   $rootScope.merchantId = null;
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -23,7 +24,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers'])
 
     FCMPlugin.getToken(
       function(token){
-        //alert(token);
+//        alert(token);
         console.log('token: ' + token);
         var data = {
         	"merchant_id": "",
@@ -33,7 +34,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers'])
         	function(response) {
         		var data = response.data;
         		if (data.status == "200") {
-              alert("oooi");
+//              alert("oooi");
         		} else {
         			alert(data.errMsg);
         		}
@@ -47,6 +48,32 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers'])
         console.log('error retrieving token: ' + err);
       }
     )
+    
+    FCMPlugin.onNotification(
+	  function(data){
+	    if(data.wasTapped){
+	      //Notification was received on device tray and tapped by the user. 
+	      alert( JSON.stringify(data) );
+	    }else{
+	      //Notification was received in foreground. Maybe the user needs to be notified. 
+	      alert( JSON.stringify(data) );
+	    }
+	  },
+	  function(msg){
+	    console.log('onNotification callback successfully registered: ' + msg);
+	  },
+	  function(err){
+	    console.log('Error registering onNotification callback: ' + err);
+	  }
+	);
+  });
+  
+  $rootScope.$on('$locationChangeStart', function (event, next, current) {
+	// redirect to login page if not logged in
+	if ($location.path() !== '/login' && $rootScope.isLogin !== true) {
+		$rootScope.isLogin = false;
+		$location.path('/login');
+	}
   });
 
   // var options = {
@@ -99,11 +126,30 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers'])
     templateUrl: 'templates/menu.html',
     controller: 'AppController'
   })
+  .state('prelogin', {
+    url: '/prelogin',
+    abstract: true,
+    templateUrl: 'templates/prelogin-menu.html',
+    controller: 'PreloginController'
+  })
   .state('login', {
     url: '/login',
     cache: false,
     templateUrl: 'templates/login.html',
     controller: 'LoginController'
+  })
+  .state('prelogin.registration', {
+    url: '/registration',
+    cache: false,
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/registration.html',
+        controller: 'RegistrationController'
+      }
+    },
+    params: {
+      data: {}
+    }
   })
   .state('app.home', {
     url: '/home',

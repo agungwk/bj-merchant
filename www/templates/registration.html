@@ -1,0 +1,62 @@
+<ion-view ng-init="init()">
+  <ion-header-bar class="bar-subheader">
+  	<h2 class="title">Registration</h2>
+  </ion-header-bar>
+  <ion-content class="has-subheader">
+    <form name="form" ng-submit="registration(form, model)">
+	    <div class="form-wrapper standard">
+	      <div class="row">
+	      	<div class="col"><input type="text" name="storeName" ng-model="model.storeName" class="it-text standard" placeholder="Store Name" readonly/></div>
+	      </div>
+	      <div class="row">
+	      	<div class="col"><input type="text" name="location" ng-model="model.location" class="it-text standard" placeholder="Location"/></div>
+	      </div>
+	      <div class="row">
+	      	<div class="col"><input type="text" name="openHour" ng-model="model.openHour" class="it-text standard" placeholder="Open Hour"/></div>
+	      </div>
+	      <div class="row">
+	      	<div class="col"><input type="text" name="closeHour" ng-model="model.closeHour" class="it-text standard" placeholder="Close Hour"/></div>
+	      </div>
+	      <div class="row">
+	      	<div class="col"><input type="tel" name="phoneNumber" ng-model="model.phoneNumber" class="it-text standard" placeholder="Phone Number"/></div>
+	      </div>
+	      <div class="row padding-top-15">
+	      	<div class="col text-left margin-auto">
+	      	  Store Picture
+	      	</div>
+	      	<div class="col text-left">
+	      	  <img id="dp" class="dp-thumbnails" ng-src="img/question-mark.jpg" />
+	      	</div>
+	      	<div class="col text-right margin-auto">
+	      	  <button type="button" class="button button-small button-stable" ng-click="takePicture()">
+			    Take Picture
+			  </button>
+	      	</div>
+	      </div>
+	      <div class="row">
+	      	<div class="col text-left margin-auto">
+	      	  Store Location
+	      	</div>
+	      	<div class="col text-left margin-auto">
+	      	  <button type="button" class="button button-small button-calm" ng-click="openMap()">
+	          	Open Map
+	          </button>
+	      	</div>
+	      	<div class="col">
+	      	</div>
+	      </div>
+	    </div>
+	    <div class="footer-form text-right">
+	      <div class="form-wrapper standard">
+	      	<div class="row">
+	      	  <div class="col">
+	      	    <button type="submit" class="button button-custom-size button-calm">
+		          Save
+		        </button>
+	      	  </div>
+	        </div>
+	      </div>
+	    </div>
+    </form>
+  </ion-content>
+</ion-view>

@@ -17,9 +17,23 @@ angular.module('starter.controllers', [])
   }
 
 })
+.controller('PreloginController', function($ionicHistory, $scope, $state) {
+	$scope.backTo = function() {
+		if ($ionicHistory.viewHistory().backView != null) {
+			$state.go($ionicHistory.viewHistory().backView.stateName);
+		} else {
+			$state.go("login");
+		}
+	    
+	}
+})
 
 .controller('LoginController', function($scope, $rootScope, $state, $timeout, $ionicLoading, $ionicHistory, $http) {
-  
+
+  $scope.toRegistration = function() {
+	$state.go("prelogin.registration");
+  }
+
   $scope.doLogin = function(form, model) {
     $ionicLoading.show();
     var data = {
@@ -35,11 +49,108 @@ angular.module('starter.controllers', [])
 		} else {
 			alert(data.errMsg);
 		}
+		$rootScope.isLogin = true;
 		$ionicLoading.hide();
 	}, function(response) {
 		alert("ERROR");
 		$ionicLoading.hide();
 	});
+  }
+})
+
+.controller('RegistrationController', function($scope, $rootScope, $state, $stateParams, $timeout, $ionicHistory, $ionicLoading, $cordovaCamera, $http) {
+  $scope.model = {};
+  
+  var merchantProfile = $stateParams.data;
+  $scope.init = function () {
+    $ionicLoading.show();
+    if (angular.equals(merchantProfile, {})) {
+    	$ionicLoading.hide();
+    } else {
+    	$scope.model = merchantProfile;
+    	$scope.imgUrl = merchantProfile.imgUrl;
+    	$ionicLoading.hide();
+    }
+  }
+  
+  $scope.openMap = function () {
+	$ionicHistory.nextViewOptions({disableBack: true});
+	$state.go("maps", {data: $scope.model});
+  }
+  
+  $scope.registration = function(form, model) {
+	$ionicLoading.show();
+	var imageSrc = document.getElementById('dp').src;
+	console.log("Registration: " + JSON.stringify(model));
+	console.log("imageSrc: " + imageSrc);
+	
+	var isBase64 = false;
+	
+	var srcToCheck = imageSrc.split(",");
+	if (typeof srcToCheck[1] != undefined) {
+		var patt = new RegExp('^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$');
+	    var res = patt.test(srcToCheck[1]);
+	    isBase64 = res;
+	}
+	
+	if (isBase64 == false) {
+		alert("Please take a picture");
+		$ionicLoading.hide();
+		return;
+	}
+	
+	$ionicLoading.show();
+    var data = {
+    	merchant_id: $rootScope.merchantId,
+		address: model.location,
+		open_hour: model.openHour,
+		close_hour: model.closeHour,
+		phone: model.phoneNumber,
+		image_base64: imageSrc
+    }
+    $http.post(url + 'updatemerchant.php', data, {}).then(
+	function(response) {
+		var data = response.data;
+		if (data.status == "200") {
+			$ionicHistory.nextViewOptions({disableBack: true});
+			$state.go("app.home");
+			alert("Update merchant succeded");
+		} else {
+			alert(data.errMsg);
+		}
+		$ionicLoading.hide();
+	}, function(response) {
+		alert("ERROR");
+		$ionicLoading.hide();
+	});
+  }
+  
+  $scope.takePicture = function() {
+	  document.addEventListener("deviceready", function () {
+
+	    var options = {
+	      quality: 50,
+	      destinationType: Camera.DestinationType.DATA_URL,
+	      sourceType: Camera.PictureSourceType.CAMERA,
+	      allowEdit: true,
+	      encodingType: Camera.EncodingType.JPEG,
+//	      targetWidth: 100,
+//	      targetHeight: 100,
+	      popoverOptions: CameraPopoverOptions,
+	      saveToPhotoAlbum: false,
+		  correctOrientation: true
+	    };
+
+	    $cordovaCamera.getPicture(options).then(function(imageData) {
+	      var image = document.getElementById('dp');
+	      var imgSrc = "data:image/jpeg;base64," + imageData;
+	      image.src = imgSrc;
+	      $scope.model.imgUrl = imgSrc;
+	    }, function(err) {
+	      // error
+	    });
+
+	  }, false);
   }
 })
 
@@ -111,7 +222,7 @@ angular.module('starter.controllers', [])
   $scope.addProduct = function(form, model) {
 	$ionicLoading.show();
 	var imageSrc = document.getElementById('dp').src;
-	console.log("Edit Profile: " + JSON.stringify(model));
+	console.log("Add Product: " + JSON.stringify(model));
 	console.log("imageSrc: " + imageSrc);
 	var isBase64 = false;
 	
