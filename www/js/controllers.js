@@ -46,6 +46,23 @@ angular.module('starter.controllers', [])
 		if (data.status == "200") {
 			$rootScope.merchantId = data.data.id;
     		$state.go("app.home");
+			var deviceData = {
+				"merchant_id": $rootScope.merchantId,
+				"device_token": $rootScope.deviceToken,
+			}
+			$http.post(url + 'adddevice.php', deviceData, {}).then(
+				function(response) {
+					var respdata = response.data;
+					if (respdata.status == "200") {
+	//              alert("oooi");
+					} else {
+						alert(respdata.errMsg);
+					}
+					$ionicLoading.hide();
+				}, function(response) {
+					alert("ERROR");
+					$ionicLoading.hide();
+				});
 		} else {
 			alert(data.errMsg);
 		}
@@ -354,7 +371,9 @@ angular.module('starter.controllers', [])
 		open_hour: model.openHour,
 		close_hour: model.closeHour,
 		phone: model.phoneNumber,
-		image_base64: imageSrc
+		image_base64: imageSrc,
+		latitude: model.lat,
+		longitude: model.lng
     }
     $http.post(url + 'updatemerchant.php', data, {}).then(
 	function(response) {

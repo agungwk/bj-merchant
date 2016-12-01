@@ -26,23 +26,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers'])
       function(token){
 //        alert(token);
         console.log('token: ' + token);
-        var data = {
-        	"merchant_id": "",
-        	"device_token": token,
-        }
-        $http.post(url + 'adddevice.php', data, {}).then(
-        	function(response) {
-        		var data = response.data;
-        		if (data.status == "200") {
-//              alert("oooi");
-        		} else {
-        			alert(data.errMsg);
-        		}
-        		$ionicLoading.hide();
-        	}, function(response) {
-        		alert("ERROR");
-        		$ionicLoading.hide();
-        	});
+		$rootScope.deviceToken = token;
       },
       function(err){
         console.log('error retrieving token: ' + err);
